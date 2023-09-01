@@ -19,26 +19,27 @@
     />
   </head>
   <body>
-    <header>
-      <div class="number">?</div>
-      <button class="btn again">Again!</button>
-    </header>
-
     <!-- Side Bar  -->
     <h1 class="first">Guess</h1>
     <h1 class="second">Number</h1>
-    
+
     <main>
       <section class="left">
+        <div class="number">?</div>
         <p class="between">(Between 1 and 20)</p>
         <input type="number" class="guess" />
         <button class="btn check">Check!</button>
       </section>
 
       <section class="right">
-        <p class="message">Start guessing...</p>
-        <p class="label-score">💯 Score: <span class="score">20</span></p>
-        <p class="label-highscore">🥇 Highscore: <span class="highscore">0</span></p>
+        <div class="score-message">
+          <p class="message">Start guessing...</p>
+        </div>
+        <div class="score-box">
+          <p class="label-score">💯 Score: <span class="score">20</span></p>
+          <p class="label-highscore">🥇 Highscore: <span class="highscore">0</span></p>
+          <button class="btn again">🔁New Game</button>
+        </div>
       </section>
     </main>
     <script src="script.js"></script>

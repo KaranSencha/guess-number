@@ -11,21 +11,11 @@
 body {
   font-family: "Poppins", sans-serif;
   color: #eee;
-  overflow: hidden;
+  overflow-x: hidden;
   background-color: #222;
 }
 
-/* LAYOUT */
-header {
-  height: 32vh;
-  display: flex;
-  justify-content: center;
-  gap: 150px;
-  align-items: center;
-  padding-bottom: 10px;
-  /* border-bottom: 8px solid #ddd; */
-}
-
+/* Side Bar  */
 .first {
   font-size: 2.2rem;
   position: absolute;
@@ -48,71 +38,98 @@ header {
   transform: rotate(-319deg) translateX(88px);
 }
 
-.number {
-  background: #eee;
-  color: #333;
-  font-size: 4rem;
-  width: 15rem;
-  border-radius: 32px;
-  padding: 2.5rem 0rem;
-  text-align: center;
-}
 
+/* Main  */
 main {
-  height: 65vh;
   color: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 150px;
+  height: max(100vh, 600px);
 }
 
 .left {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.right {
-  font-size: 2rem;
+  gap: 40px;
 }
 
 .between {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+}
+
+.number {
+  background: #eee;
+  color: #333;
+  font-size: 4rem;
+  width: 250px;
+  border-radius: 32px;
+  padding: 2.5rem 0rem;
+  text-align: center;
 }
 
 .guess {
   background: none;
   border: 4px solid #eee;
   border-radius: 12px;
+  outline: none;
   color: inherit;
   font-size: 5rem;
   padding: 2.5rem;
-  width: 25rem;
+  width: 250px;
   text-align: center;
   display: block;
-  margin-bottom: 3rem;
 }
 
-.btn {
+.right {
+  font-size: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.score-message {
+  height: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.score-box {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.check {
   border: none;
   background-color: #eee;
   color: #222;
   font-size: 2rem;
   border-radius: 12px;
-  padding: 20px 32px;
+  padding: 10px 32px;
   cursor: pointer;
 }
 
-.btn:hover {
-  background-color: #ccc;
+.again {
+  border: none;
+  background-color: #eee;
+  color: #222;
+  font-size: 1.7rem;
+  border-radius: 12px;
+  padding: 10px 32px;
+  cursor: pointer;
 }
 
-.message {
-  margin-bottom: 5rem;
-  height: 3rem;
+.btn {
+  transition: all 0.2s linear;
+ margin-bottom: 5px;
 }
 
-.label-score {
-  margin-bottom: 2rem;
+.btn:active {
+  margin-bottom: 0;
+  margin-top:5px;
 }
