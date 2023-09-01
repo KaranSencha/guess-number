@@ -4,27 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="shortcut icon" href="favicon-32x32.png" type="image/x-icon" />
+    <link rel="icon" href="favicon-32x32.png" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
     <title>Guess My Number!</title>
+
+    <!-- Google Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header>
-      <h1>Guess My Number!</h1>
-      <p class="between">(Between 1 and 20)</p>
-      <button class="btn again">Again!</button>
       <div class="number">?</div>
+      <button class="btn again">Again!</button>
     </header>
+
+    <!-- Side Bar  -->
+    <h1 class="first">Guess</h1>
+    <h1 class="second">Number</h1>
+    
     <main>
       <section class="left">
+        <p class="between">(Between 1 and 20)</p>
         <input type="number" class="guess" />
         <button class="btn check">Check!</button>
       </section>
+
       <section class="right">
         <p class="message">Start guessing...</p>
         <p class="label-score">💯 Score: <span class="score">20</span></p>
-        <p class="label-highscore">
-          🥇 Highscore: <span class="highscore">0</span>
-        </p>
+        <p class="label-highscore">🥇 Highscore: <span class="highscore">0</span></p>
       </section>
     </main>
     <script src="script.js"></script>
