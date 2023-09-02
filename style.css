@@ -5,7 +5,20 @@
 }
 
 :root {
-  --green: #ddabab;
+  --white: #ffffff;
+  --lightgray1: #dddddd;
+  --lightgray2: #bbbbbb;
+  --lightgray3: #dfdfdf9c;
+  --gray: #807e7e;
+  --darkgray: #353535;
+  --pink: #d63384;
+  --purple: #6610f2;
+  --primary: #0d6efd;
+  --green: #198754;
+  --orange: #fd7e14;
+  --red: #dc3545;
+  --black: #111;
+  --theme-bg: rgb(17, 24, 39);
 }
 
 body {
@@ -126,10 +139,43 @@ main {
 
 .btn {
   transition: all 0.2s linear;
- margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .btn:active {
   margin-bottom: 0;
-  margin-top:5px;
+  margin-top: 5px;
+}
+
+/* Laptop Responsive  */
+@media only screen and (max-width: 1024px) {
+  main {
+    gap: 6vw;
+  }
+}
+
+/* Tablet Responsive  */
+@media only screen and (max-width: 768px) {
+  .first {
+    padding: 0 122px;
+    transform: rotate(334deg) translateX(-63px);
+  }
+
+  .second {
+    padding: 0 131px;
+    transform: rotate(-334deg) translateX(90px);
+  }
+
+  main {
+    padding-top: 50px;
+    gap: 2vw;
+  }
+}
+
+/* Mobile Responsive  */
+@media only screen and (max-width: 600px) {
+  main {
+    padding-top: 50px;
+    gap: 2vw;
+  }
 }
