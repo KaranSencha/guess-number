@@ -179,3 +179,51 @@ main {
     gap: 2vw;
   }
 }
+
+/* flower styling  */
+#flower-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.square {
+  width: 20px;
+  border:none;
+  height: 15px;
+  background-color: #9fe93b;
+  position: absolute;
+  transform-origin: 50% 50%;
+}
+
+.circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border:none;
+  background-color: #dddddd;
+  position: absolute;
+  transform-origin: 50% 50%;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 18px solid #ff9800;
+  position: absolute;
+  transform-origin: 50% 50%;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100%) rotate(360deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(1100deg);
+  }
+}

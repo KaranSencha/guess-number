@@ -31,6 +31,7 @@ checkButton.addEventListener("click", function () {
     document.querySelector(".number").textContent = secretNumber;
 
     document.querySelector("body").style.backgroundColor = "#198754";
+    startFlower();
 
     if (score > highscore) {
       highscore = score;
@@ -61,5 +62,46 @@ checkButton.addEventListener("click", function () {
     document.querySelector(".guess").value = "";
 
     document.querySelector("body").style.backgroundColor = "#222";
+    stopFlower();
   });
 });
+
+// Flower Effect - when player win
+const flowerContainer = document.getElementById("flower-container");
+let flowers = []; // Array to store created flowers
+let flag = false;
+
+function startFlower() {
+  if (flag) {
+    return;
+  }
+  flag = true;
+  for (let i = 0; i < 80; i++) {
+    const flower = document.createElement("div");
+
+    let classRandom = Math.trunc(Math.random() * 3) + 1;
+    if (classRandom == 1) {
+      flower.classList.add("square");
+    } else if (classRandom == 2) {
+      flower.classList.add("circle");
+    } else {
+      flower.classList.add("triangle");
+    }
+    flower.style.left = `${Math.random() * 100}%`;
+
+    flower.style.animation = `fall ${Math.random() * 2 + 2}s linear ${Math.random() * 2}s infinite`;
+    flowerContainer.appendChild(flower);
+
+    flowers.push(flower);
+  }
+}
+
+// Stop Flower
+function stopFlower() {
+  for (const flower of flowers) {
+    flowerContainer.removeChild(flower);
+  }
+  // Clear the flowers array
+  flowers = [];
+  flag = false;
+}
