@@ -89,7 +89,7 @@ function startFlower() {
     }
     flower.style.left = `${Math.random() * 100}%`;
 
-    flower.style.animation = `fall ${Math.random() * 2 + 2}s linear ${Math.random() * 2}s infinite`;
+    flower.style.animation = `fall ${Math.random() * 5 + 3}s linear  infinite`;
     flowerContainer.appendChild(flower);
 
     flowers.push(flower);
