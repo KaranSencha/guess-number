@@ -1,9 +1,8 @@
 "use strict";
 
-let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let secretNumber = randomNum();
 let score = 20;
 let highscore = 0;
-
 const displayMessage = function (message) {
   document.querySelector(".message").textContent = message;
 };
@@ -23,14 +22,15 @@ checkButton.addEventListener("click", function () {
 
   // When there is no input
   if (!guess) {
-    displayMessage("⛔️ No number!");
+    displayMessage("No number 🙅‍♀️");
 
     // When player wins
   } else if (guess === secretNumber) {
-    displayMessage("🎉 Correct Number!");
+    displayMessage("You Win");
     document.querySelector(".number").textContent = secretNumber;
 
     document.querySelector("body").style.backgroundColor = "#198754";
+    document.querySelector(".number").style.backgroundColor = "#8fbc8f";
     startFlower();
 
     if (score > highscore) {
@@ -45,16 +45,16 @@ checkButton.addEventListener("click", function () {
       score--;
       document.querySelector(".score").textContent = score;
     } else {
-      displayMessage("💥 You lost the game!");
+      displayMessage("Game over 😔");
       document.querySelector(".score").textContent = 0;
     }
   }
+});
 
-  // Again Button - Restart Game logic
-  const againButton = document.querySelector(".again");
-  againButton.addEventListener("click", function () {
+  // Again Function
+  function again() {
     score = 20;
-    secretNumber = Math.trunc(Math.random() * 20) + 1;
+    secretNumber = randomNum();
 
     displayMessage("Start guessing...");
     document.querySelector(".score").textContent = score;
@@ -62,46 +62,77 @@ checkButton.addEventListener("click", function () {
     document.querySelector(".guess").value = "";
 
     document.querySelector("body").style.backgroundColor = "#222";
+     document.querySelector(".number").style.backgroundColor = "#ddd";
     stopFlower();
-  });
-});
-
-// Flower Effect - when player win
-const flowerContainer = document.getElementById("flower-container");
-let flowers = []; // Array to store created flowers
-let flag = false;
-
-function startFlower() {
-  if (flag) {
-    return;
   }
-  flag = true;
-  for (let i = 0; i < 80; i++) {
-    const flower = document.createElement("div");
+  // Again Button - Restart Game logic
+  const againButton = document.querySelector(".again");
+  againButton.addEventListener("click", again);
 
-    let classRandom = Math.trunc(Math.random() * 3) + 1;
-    if (classRandom == 1) {
-      flower.classList.add("square");
-    } else if (classRandom == 2) {
-      flower.classList.add("circle");
-    } else {
-      flower.classList.add("triangle");
+
+  // Call Again function when - level is changed
+  document.getElementById("level").addEventListener("change", again);
+
+  // random for different levels
+  function randomNum() {
+    let levelValue = 0;
+    const level = document.getElementById("level").value;
+    const between = document.getElementById("betweenValue");
+    if (level === "easy") {
+      levelValue = 20;
+    } else if (level === "midium") {
+      levelValue = 50;
+    } else if (level === "hard") {
+      levelValue = 200;
+    } else if (level === "extreme") {
+      levelValue = 1000;
     }
-    flower.style.left = `${Math.random() * 100}%`;
-
-    flower.style.animation = `fall ${Math.random() * 5 + 3}s linear  infinite`;
-    flowerContainer.appendChild(flower);
-
-    flowers.push(flower);
+    between.textContent = levelValue;
+    return Math.trunc(Math.random() * levelValue) + 1;
   }
-}
+  
+  // Flower Effect - when player win
+  const flowerContainer = document.getElementById("flower-container");
+  let flowers = []; // Array to store created flowers
+  let flag = false;
 
-// Stop Flower
-function stopFlower() {
-  for (const flower of flowers) {
-    flowerContainer.removeChild(flower);
+  function startFlower() {
+    if (flag) {
+      return;
+    }
+    flag = true;
+
+    let bubbleNum = 70;
+    if (window.innerWidth < 700) {
+      bubbleNum = 40;
+    }
+
+    for (let i = 0; i < bubbleNum; i++) {
+      const flower = document.createElement("div");
+
+      let classRandom = Math.trunc(Math.random() * 3) + 1;
+      if (classRandom == 1) {
+        flower.classList.add("square");
+      } else if (classRandom == 2) {
+        flower.classList.add("circle");
+      } else {
+        flower.classList.add("triangle");
+      }
+      flower.style.left = `${Math.random() * 100}%`;
+
+      flower.style.animation = `fall ${Math.random() * 5 + 3}s linear ${Math.random() * 2}s infinite`;
+      flowerContainer.appendChild(flower);
+
+      flowers.push(flower);
+    }
   }
-  // Clear the flowers array
-  flowers = [];
-  flag = false;
-}
+
+  // Stop Flower
+  function stopFlower() {
+    for (const flower of flowers) {
+      flowerContainer.removeChild(flower);
+    }
+    // Clear the flowers array
+    flowers = [];
+    flag = false;
+  }
