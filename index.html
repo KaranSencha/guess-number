@@ -19,34 +19,53 @@
     />
   </head>
   <body>
-    <!-- Side Bar  -->
-    <aside>
-      <h1 class="first">Guess</h1>
-      <h1 class="second">Number</h1>
-    </aside>
-    
+    <!-- Header -->
+    <header>
+      <div class="side">
+        <h2 class="side-left">Guess</h2>
+        <h2 class="side-right">Number</h2>
+      </div>
+      <h1>Guess Number</h1>
+    </header>
+
     <!-- Flower container -->
     <div id="flower-container"></div>
 
     <main>
-      <section class="left">
+      <section class="first">
         <div class="number">?</div>
-        <p class="between">(Between 1 and 20)</p>
-        <input type="number" class="guess" />
-        <button class="btn check">Check!</button>
-      </section>
-
-      <section class="right">
-        <div class="score-message">
+        <div class="level-box">
+          <div>
+            <span>Level</span>
+              <select  id="level">
+                <option value="easy">easy</option>
+                <option value="midium">midium</option>
+                <option value="hard">hard</option>
+                <option value="extreme">extreme</option>
+              </select>
+          </div>
+          <p class="between">(Between 1 to <span id="betweenValue">20</span>)</p>
           <p class="message">Start guessing...</p>
         </div>
+      </section>
+
+      <section class="second">
+        <input type="number" class="guess" />
         <div class="score-box">
           <p class="label-score">✅ Score: <span class="score">20</span></p>
           <p class="label-highscore">🥇 Highscore: <span class="highscore">0</span></p>
-          <button class="btn again">🔁New Game</button>
         </div>
       </section>
+
+      <section class="third">
+        <button class="btn check">Check!</button>
+        <button class="btn again">New Game</button>
+      </section>
     </main>
+
+    <!-- Footer  -->
+    <footer></footer>
+
     <script src="script.js"></script>
   </body>
 </html>
