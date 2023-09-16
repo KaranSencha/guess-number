@@ -116,6 +116,7 @@ select {
   padding: 2.5rem;
   width: 250px;
   text-align: center;
+  caret-color: inherit;
 }
 
 .third {

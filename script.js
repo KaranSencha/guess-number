@@ -17,6 +17,11 @@ inputValue.addEventListener("keydown", function (event) {
   }
 });
 
+// Focus on the input element
+document.addEventListener("DOMContentLoaded", function () {
+  inputValue.focus();
+});
+
 checkButton.addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
 
@@ -51,88 +56,89 @@ checkButton.addEventListener("click", function () {
   }
 });
 
-  // Again Function
-  function again() {
-    score = 20;
-    secretNumber = randomNum();
+// Again Function
+function again() {
+  score = 20;
+  secretNumber = randomNum();
 
-    displayMessage("Start guessing...");
-    document.querySelector(".score").textContent = score;
-    document.querySelector(".number").textContent = "?";
-    document.querySelector(".guess").value = "";
+  displayMessage("Start guessing...");
+  document.querySelector(".score").textContent = score;
+  document.querySelector(".number").textContent = "?";
+  document.querySelector(".guess").value = "";
 
-    document.querySelector("body").style.backgroundColor = "#222";
-     document.querySelector(".number").style.backgroundColor = "#ddd";
-    stopFlower();
+  document.querySelector("body").style.backgroundColor = "#222";
+  document.querySelector(".number").style.backgroundColor = "#ddd";
+  stopFlower();
+}
+// Again Button - Restart Game logic
+const againButton = document.querySelector(".again");
+againButton.addEventListener("click", again);
+
+// Call Again function when - level is changed
+document.getElementById("level").addEventListener("change", again);
+
+// random for different levels
+function randomNum() {
+  let levelValue = 0;
+  const level = document.getElementById("level").value;
+  const between = document.getElementById("betweenValue");
+  if (level === "easy") {
+    levelValue = 20;
+  } else if (level === "midium") {
+    levelValue = 50;
+  } else if (level === "hard") {
+    levelValue = 200;
+  } else if (level === "extreme") {
+    levelValue = 1000;
   }
-  // Again Button - Restart Game logic
-  const againButton = document.querySelector(".again");
-  againButton.addEventListener("click", again);
+  between.textContent = levelValue;
+  return Math.trunc(Math.random() * levelValue) + 1;
+}
 
+// Flower Effect - when player win
+const flowerContainer = document.getElementById("flower-container");
+let flowers = []; // Array to store created flowers
+let flag = false;
 
-  // Call Again function when - level is changed
-  document.getElementById("level").addEventListener("change", again);
-
-  // random for different levels
-  function randomNum() {
-    let levelValue = 0;
-    const level = document.getElementById("level").value;
-    const between = document.getElementById("betweenValue");
-    if (level === "easy") {
-      levelValue = 20;
-    } else if (level === "midium") {
-      levelValue = 50;
-    } else if (level === "hard") {
-      levelValue = 200;
-    } else if (level === "extreme") {
-      levelValue = 1000;
-    }
-    between.textContent = levelValue;
-    return Math.trunc(Math.random() * levelValue) + 1;
+function startFlower() {
+  if (flag) {
+    return;
   }
-  
-  // Flower Effect - when player win
-  const flowerContainer = document.getElementById("flower-container");
-  let flowers = []; // Array to store created flowers
-  let flag = false;
+  flag = true;
 
-  function startFlower() {
-    if (flag) {
-      return;
-    }
-    flag = true;
-
-    let bubbleNum = 70;
-    if (window.innerWidth < 700) {
-      bubbleNum = 40;
-    }
-
-    for (let i = 0; i < bubbleNum; i++) {
-      const flower = document.createElement("div");
-
-      let classRandom = Math.trunc(Math.random() * 3) + 1;
-      if (classRandom == 1) {
-        flower.classList.add("square");
-      } else if (classRandom == 2) {
-        flower.classList.add("circle");
-      } else {
-        flower.classList.add("triangle");
-      }
-      flower.style.left = `${Math.random() * 100}%`;
-
-      flower.style.animation = `fall ${Math.random() * 5 + 3}s linear ${Math.random() * 2}s infinite`;
-      flowerContainer.appendChild(flower);
-
-      flowers.push(flower);
-    }
+  let bubbleNum = 70;
+  if (window.innerWidth < 700) {
+    bubbleNum = 40;
   }
 
-  // Stop Flower
-  function stopFlower() {
-    for (const flower of flowers) {
-      flowerContainer.removeChild(flower);
+  for (let i = 0; i < bubbleNum; i++) {
+    const flower = document.createElement("div");
+
+    let classRandom = Math.trunc(Math.random() * 3) + 1;
+    if (classRandom == 1) {
+      flower.classList.add("square");
+    } else if (classRandom == 2) {
+      flower.classList.add("circle");
+    } else {
+      flower.classList.add("triangle");
     }
-    // Clear the flowers array
-    flowers = [];
-    flag = false;
+    flower.style.left = `${Math.random() * 100}%`;
+
+    flower.style.animation = `fall ${Math.random() * 5 + 3}s linear ${
+      Math.random() * 2
+    }s infinite`;
+    flowerContainer.appendChild(flower);
+
+    flowers.push(flower);
   }
+}
+
+// Stop Flower
+function stopFlower() {
+  for (const flower of flowers) {
+    flowerContainer.removeChild(flower);
+  }
+  // Clear the flowers array
+  flowers = [];
+  flag = false;
+}
