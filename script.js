@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 checkButton.addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
-
+ inputValue.focus();
   // When there is no input
   if (!guess) {
     displayMessage("No number 🙅‍♀️");
@@ -33,7 +33,7 @@ checkButton.addEventListener("click", function () {
   } else if (guess === secretNumber) {
     displayMessage("You Win");
     document.querySelector(".number").textContent = secretNumber;
-
+ inputValue.blur();
     document.querySelector("body").style.backgroundColor = "#198754";
     document.querySelector(".number").style.backgroundColor = "#8fbc8f";
     startFlower();
@@ -60,7 +60,7 @@ checkButton.addEventListener("click", function () {
 function again() {
   score = 20;
   secretNumber = randomNum();
-
+ inputValue.focus();
   displayMessage("Start guessing...");
   document.querySelector(".score").textContent = score;
   document.querySelector(".number").textContent = "?";
