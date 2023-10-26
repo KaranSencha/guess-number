@@ -3,13 +3,18 @@
 let secretNumber = randomNum();
 let score = 20;
 let highscore = 0;
+const checkButton = document.querySelector(".check");
+const inputValue = document.querySelector(".guess");
+const againButton = document.querySelector(".again");
+const flowerContainer = document.getElementById("flower-container");
+let flowers = []; // Array to store created flowers
+let flag = false; // check flowers state
+
 const displayMessage = function (message) {
   document.querySelector(".message").textContent = message;
 };
-const checkButton = document.querySelector(".check");
 
 // add event listener to enter key
-const inputValue = document.querySelector(".guess");
 inputValue.addEventListener("keydown", function (event) {
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -17,14 +22,15 @@ inputValue.addEventListener("keydown", function (event) {
   }
 });
 
-// Focus on the input element
+//By default Focus on the input element
 document.addEventListener("DOMContentLoaded", function () {
   inputValue.focus();
 });
 
+// Ad
 checkButton.addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
- inputValue.focus();
+  inputValue.focus();
   // When there is no input
   if (!guess) {
     displayMessage("No number 🙅‍♀️");
@@ -33,7 +39,7 @@ checkButton.addEventListener("click", function () {
   } else if (guess === secretNumber) {
     displayMessage("You Win");
     document.querySelector(".number").textContent = secretNumber;
- inputValue.blur();
+    inputValue.blur();
     document.querySelector("body").style.backgroundColor = "#198754";
     document.querySelector(".number").style.backgroundColor = "#8fbc8f";
     startFlower();
@@ -60,7 +66,7 @@ checkButton.addEventListener("click", function () {
 function again() {
   score = 20;
   secretNumber = randomNum();
- inputValue.focus();
+  inputValue.focus();
   displayMessage("Start guessing...");
   document.querySelector(".score").textContent = score;
   document.querySelector(".number").textContent = "?";
@@ -71,7 +77,6 @@ function again() {
   stopFlower();
 }
 // Again Button - Restart Game logic
-const againButton = document.querySelector(".again");
 againButton.addEventListener("click", again);
 
 // Call Again function when - level is changed
@@ -96,10 +101,6 @@ function randomNum() {
 }
 
 // Flower Effect - when player win
-const flowerContainer = document.getElementById("flower-container");
-let flowers = []; // Array to store created flowers
-let flag = false;
-
 function startFlower() {
   if (flag) {
     return;
@@ -124,9 +125,7 @@ function startFlower() {
     }
     flower.style.left = `${Math.random() * 100}%`;
 
-    flower.style.animation = `fall ${Math.random() * 5 + 3}s linear ${
-      Math.random() * 2
-    }s infinite`;
+    flower.style.animation = `fall ${Math.random() * 5 + 3}s linear ${Math.random() * 2}s infinite`;
     flowerContainer.appendChild(flower);
 
     flowers.push(flower);
