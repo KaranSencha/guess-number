@@ -141,3 +141,12 @@ function stopFlower() {
   flowers = [];
   flag = false;
 }
+
+// Score open close
+const bestScore = document.querySelector(".score-best");
+const recentScore = document.querySelector(".score-recent");
+bestScore.addEventListener("click", function () {
+  recentScore.classList.toggle("score-hide");
+});
+
+
