@@ -10,6 +10,11 @@ const flowerContainer = document.getElementById("flower-container");
 let flowers = []; // Array to store created flowers
 let flag = false; // check flowers state
 
+// Local Storage variables
+let recentScoresInfo = [];
+let bestHighscoreInfo = [];
+
+// Display message after click check button
 const displayMessage = function (message) {
   document.querySelector(".message").textContent = message;
 };
@@ -27,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
   inputValue.focus();
 });
 
-// Ad
+// Add event to -- Check Button
 checkButton.addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
   inputValue.focus();
@@ -43,6 +48,9 @@ checkButton.addEventListener("click", function () {
     document.querySelector("body").style.backgroundColor = "#198754";
     document.querySelector(".number").style.backgroundColor = "#8fbc8f";
     startFlower();
+
+    // call updateRecentScoresInfo
+    updateRecentScoresInfo(score);
 
     if (score > highscore) {
       highscore = score;
@@ -90,11 +98,11 @@ function randomNum() {
   if (level === "easy") {
     levelValue = 20;
   } else if (level === "midium") {
-    levelValue = 50;
+    levelValue = 100;
   } else if (level === "hard") {
-    levelValue = 200;
+    levelValue = 500;
   } else if (level === "extreme") {
-    levelValue = 1000;
+    levelValue = 10000;
   }
   between.textContent = levelValue;
   return Math.trunc(Math.random() * levelValue) + 1;
@@ -142,11 +150,83 @@ function stopFlower() {
   flag = false;
 }
 
-// Score open close
+// Recent Score open & close
 const bestScore = document.querySelector(".score-best");
 const recentScore = document.querySelector(".score-recent");
 bestScore.addEventListener("click", function () {
   recentScore.classList.toggle("score-hide");
 });
 
+// Local Storage
 
+// if highscore value is higher than - best score than again change this value with new highscore
+
+// best score is always one value
+
+function updateRecentScoresInfo(scoreValue = "20") {
+  const level = document.getElementById("level").value;
+  const currentTime = Date.now();
+  console.log(currentTime);
+  const recentScoreInfo = {
+    date: currentTime,
+    level,
+    score: scoreValue,
+  };
+
+  recentScoresInfo = JSON.parse(localStorage.getItem("recentScores")) ?? [];
+
+  recentScoresInfo.push(recentScoreInfo);
+
+  // remove previous element if already 10 element in local storage
+  let recentLength = recentScoresInfo.length;
+  if (recentLength > 10) {
+    for (let i = recentLength; i > 10; i--) {
+      recentScoresInfo.shift();
+    }
+  }
+
+  localStorage.setItem("recentScores", JSON.stringify(recentScoresInfo));
+
+  displayRecentScores();
+}
+
+function displayRecentScores() {
+  let allRecentScores = "";
+
+  recentScoresInfo = JSON.parse(localStorage.getItem("recentScores")) ?? [];
+  const currentTime = Date.now();
+  recentScoresInfo.forEach((element) => {
+    const scoreTimestamp = element.date;
+    let timeValue;
+    let timeType = "";
+
+    // Time between now and scoreTimestamp
+    const differenceTime = currentTime - scoreTimestamp;
+    if (differenceTime < 60000) {
+      timeValue = ((differenceTime % (1000 * 60)) / 1000).toFixed(0);
+      timeType = "s";
+    } else if (differenceTime < 3600000) {
+      timeValue = Math.floor(differenceTime / (1000 * 60));
+      timeType = "m";
+    } else if (differenceTime < 86400000) {
+      timeValue = Math.floor((differenceTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      timeType = "h";
+    } else {
+      timeValue = Math.floor(differenceTime / (1000 * 60 * 60 * 24));
+      timeType = "d";
+    }
+    allRecentScores += `
+	    <div>
+              <div><span class="heading">level</span> <span class="value">${element.level}</span></div>
+              <div><span class="heading">highscore</span><span class="value">${element.score}</span></div>
+              <div>
+                <span class="time">${timeValue}${timeType}</span><span class="time">ago</span>
+              </div>
+            </div>
+	`;
+  });
+
+  recentScore.innerHTML = allRecentScores;
+}
+
+displayRecentScores();

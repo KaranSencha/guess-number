@@ -195,19 +195,22 @@ aside {
   cursor: pointer;
 }
 
-.score-best div, .score-recent div div {
+.score-best div,
+.score-recent div div {
   display: flex;
   flex-direction: column;
   line-height: 1.3;
   align-items: center;
 }
 
-.score-best .heading, .score-recent .heading {
+.score-best .heading,
+.score-recent .heading {
   font-size: 14px;
   opacity: 0.75;
 }
 
-.score-best .value, .score-recent .value {
+.score-best .value,
+.score-recent .value {
   font-size: 17px;
   font-weight: 600;
   opacity: 0.90;
@@ -233,6 +236,8 @@ aside {
   width: 100%;
   position: absolute;
   height: auto;
+  max-height: 300px;
+  overflow-y: auto;
   top: -59px;
   transform: translateY(-100%);
   flex-direction: column;
@@ -252,6 +257,7 @@ aside {
   font-size: 0.9rem;
   font-weight: 500;
 }
+
 .score-hide {
   display: flex;
 }
@@ -473,4 +479,8 @@ aside {
   100% {
     transform: translateY(100vh) rotate(1100deg);
   }
+}
+
+footer {
+  display: none;
 }
