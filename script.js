@@ -1,5 +1,6 @@
 "use strict";
 
+let levelInfo = "";
 let secretNumber = randomNum();
 let score = 20;
 let highscore = 0;
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Add event to -- Check Button
+let updateScoreFlag = true;
 checkButton.addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
   inputValue.focus();
@@ -50,7 +52,11 @@ checkButton.addEventListener("click", function () {
     startFlower();
 
     // call updateRecentScoresInfo
-    updateRecentScoresInfo(score);
+    if (updateScoreFlag) {
+      updateRecentScoresInfo(score);
+      updateBestHighscoreInfo(score);
+      updateScoreFlag = !updateScoreFlag;
+    }
 
     if (score > highscore) {
       highscore = score;
@@ -74,6 +80,7 @@ checkButton.addEventListener("click", function () {
 function again() {
   score = 20;
   secretNumber = randomNum();
+  updateScoreFlag = true;
   inputValue.focus();
   displayMessage("Start guessing...");
   document.querySelector(".score").textContent = score;
@@ -93,8 +100,13 @@ document.getElementById("level").addEventListener("change", again);
 // random for different levels
 function randomNum() {
   let levelValue = 0;
+  // FIX
+  let aaa = localStorage.getItem("level") ?? "basic";
   const level = document.getElementById("level").value;
   const between = document.getElementById("betweenValue");
+
+  updateLevel(level);
+
   if (level === "easy") {
     levelValue = 20;
   } else if (level === "midium") {
@@ -151,22 +163,27 @@ function stopFlower() {
 }
 
 // Recent Score open & close
+let tooltipFlag = true;
 const bestScore = document.querySelector(".score-best");
 const recentScore = document.querySelector(".score-recent");
 bestScore.addEventListener("click", function () {
   recentScore.classList.toggle("score-hide");
+
+  // tooltip text change
+  document.querySelector(".tooltip").textContent = tooltipFlag ? "hide recent" : "show recent";
+
+  tooltipFlag = !tooltipFlag;
+
+  displayRecentScores();
 });
 
 // Local Storage
 
-// if highscore value is higher than - best score than again change this value with new highscore
-
-// best score is always one value
-
+// bestHighscoreInfo;
 function updateRecentScoresInfo(scoreValue = "20") {
   const level = document.getElementById("level").value;
   const currentTime = Date.now();
-  console.log(currentTime);
+
   const recentScoreInfo = {
     date: currentTime,
     level,
@@ -198,31 +215,28 @@ function displayRecentScores() {
   recentScoresInfo.forEach((element) => {
     const scoreTimestamp = element.date;
     let timeValue;
-    let timeType = "";
 
     // Time between now and scoreTimestamp
-    const differenceTime = currentTime - scoreTimestamp;
-    if (differenceTime < 60000) {
-      timeValue = ((differenceTime % (1000 * 60)) / 1000).toFixed(0);
-      timeType = "s";
-    } else if (differenceTime < 3600000) {
-      timeValue = Math.floor(differenceTime / (1000 * 60));
-      timeType = "m";
-    } else if (differenceTime < 86400000) {
-      timeValue = Math.floor((differenceTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      timeType = "h";
+    // and convert millisecond to seconds
+    const differenceTime = (currentTime - scoreTimestamp) / 1000;
+
+    if (differenceTime < 60) {
+      timeValue = (differenceTime % 60).toFixed(0) + "s";
+    } else if (differenceTime < 3600) {
+      timeValue = Math.floor(differenceTime / 60) + "m";
+    } else if (differenceTime < 86400) {
+      timeValue = Math.floor(differenceTime / 3600) + "h";
     } else {
-      timeValue = Math.floor(differenceTime / (1000 * 60 * 60 * 24));
-      timeType = "d";
+      timeValue = Math.floor(differenceTime / 86400) + "d";
     }
     allRecentScores += `
 	    <div>
               <div><span class="heading">level</span> <span class="value">${element.level}</span></div>
               <div><span class="heading">highscore</span><span class="value">${element.score}</span></div>
               <div>
-                <span class="time">${timeValue}${timeType}</span><span class="time">ago</span>
+                <span class="time">${timeValue}</span><span class="time">ago</span>
               </div>
-            </div>
+       </div>
 	`;
   });
 
@@ -230,3 +244,53 @@ function displayRecentScores() {
 }
 
 displayRecentScores();
+
+function updateBestHighscoreInfo(scoreValue = "10") {
+  const level = document.getElementById("level").value;
+  const currentTime = Date.now();
+
+  bestHighscoreInfo = JSON.parse(localStorage.getItem("bestHighscore")) ?? [];
+
+  // return if score is less
+  if (score < (bestHighscoreInfo[0]?.score || 1)) return;
+
+  const bestScoreInfo = {
+    date: currentTime,
+    level,
+    score: scoreValue,
+  };
+
+  bestHighscoreInfo[0] = bestScoreInfo;
+
+  localStorage.setItem("bestHighscore", JSON.stringify(bestHighscoreInfo));
+
+  displayBestScore();
+}
+
+function displayBestScore() {
+  bestHighscoreInfo = JSON.parse(localStorage.getItem("bestHighscore")) ?? [];
+
+  if (bestHighscoreInfo.length === 0) return;
+
+  const score = bestHighscoreInfo[0].score;
+  const level = bestHighscoreInfo[0].level;
+
+  bestScore.innerHTML = `
+   <div><span class="heading">level</span> <span class="value">${level}</span></div>
+            <div><span class="heading">highscore</span><span class="value">${score}</span></div>
+            <div>
+              <div class="tooltip-btn">
+                (O)
+                <div class="tooltip">show recent</div>
+              </div>
+            </div>
+  `;
+}
+
+displayBestScore();
+
+// Update user game level in local storage
+function updateLevel(level) {
+  levelInfo = level;
+  localStorage.setItem("level", levelInfo);
+}
