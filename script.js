@@ -95,17 +95,18 @@ function again() {
 againButton.addEventListener("click", again);
 
 // Call Again function when - level is changed
-document.getElementById("level").addEventListener("change", again);
+document.getElementById("level").addEventListener("change", function () {
+  const level = document.getElementById("level").value;
+  updateLevel(level);
+  again();
+});
 
 // random for different levels
 function randomNum() {
-  let levelValue = 0;
-  // FIX
-  let aaa = localStorage.getItem("level") ?? "basic";
+  let levelValue = "";
+  changeLevelValue();
   const level = document.getElementById("level").value;
   const between = document.getElementById("betweenValue");
-
-  updateLevel(level);
 
   if (level === "easy") {
     levelValue = 20;
@@ -293,4 +294,17 @@ displayBestScore();
 function updateLevel(level) {
   levelInfo = level;
   localStorage.setItem("level", levelInfo);
+}
+
+function changeLevelValue() {
+  const levelSelect = document.getElementById("level");
+
+  let newValue = localStorage.getItem("level");
+
+  for (let i = 0; i < levelSelect.options.length; i++) {
+    if (levelSelect.options[i].value === newValue) {
+      levelSelect.selectedIndex = i;
+      break;
+    }
+  }
 }
