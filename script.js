@@ -15,6 +15,11 @@ let flag = false; // check flowers state
 let recentScoresInfo = [];
 let bestHighscoreInfo = [];
 
+let tooltipFlag = true;
+const bestScore = document.querySelector(".score-best");
+const recentScore = document.querySelector(".score-recent");
+
+let updateScoreFlag = true;
 // Display message after click check button
 const displayMessage = function (message) {
   document.querySelector(".message").textContent = message;
@@ -34,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Add event to -- Check Button
-let updateScoreFlag = true;
 checkButton.addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
   inputValue.focus();
@@ -164,9 +168,6 @@ function stopFlower() {
 }
 
 // Recent Score open & close
-let tooltipFlag = true;
-const bestScore = document.querySelector(".score-best");
-const recentScore = document.querySelector(".score-recent");
 bestScore.addEventListener("click", function () {
   recentScore.classList.toggle("score-hide");
 
@@ -233,7 +234,7 @@ function displayRecentScores() {
     allRecentScores += `
 	    <div>
               <div><span class="heading">level</span> <span class="value">${element.level}</span></div>
-              <div><span class="heading">highscore</span><span class="value">${element.score}</span></div>
+              <div><span class="heading">score</span><span class="value">${element.score}</span></div>
               <div>
                 <span class="time">${timeValue}</span><span class="time">ago</span>
               </div>
@@ -278,7 +279,7 @@ function displayBestScore() {
 
   bestScore.innerHTML = `
    <div><span class="heading">level</span> <span class="value">${level}</span></div>
-            <div><span class="heading">highscore</span><span class="value">${score}</span></div>
+            <div><span class="heading">score</span><span class="value">${score}</span></div>
             <div>
               <div class="tooltip-btn">
                 (O)
@@ -308,3 +309,13 @@ function changeLevelValue() {
     }
   }
 }
+
+// Copyright Year update automatically
+function updateCopyrightYear() {
+  const yearElement = document.getElementById("copyrightYear");
+
+  const newYear = new Date().getFullYear();
+  yearElement.textContent = newYear;
+}
+
+updateCopyrightYear();
