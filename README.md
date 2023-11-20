@@ -1,7 +1,11 @@
 # Guess Secret Number
 
+![Guess Number Image](https://github.com/KaranSencha/guess-number/blob/master/guessnumber.png)
+
 A fun guessing game that challenges your skills in guessing a secret number within a specified range. Choose your difficulty level, make your guesses, and compete for the highest score!
 - [live demo](https://guess.karansencha.com/)
+
+
 
 ## How to Play
 1. **Start**: Open the [website](https://guess.karansencha/).
@@ -33,7 +37,6 @@ This game project was developed as a simple web-based game to entertain users an
 - Java Script
 - HTML5
 - CSS3
-- Tailwind CSS
 
 
 ## Developer
