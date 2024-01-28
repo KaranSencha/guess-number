@@ -1,6 +1,6 @@
 # Guess Secret Number
 
-![Guess Number Image](https://github.com/KaranSencha/guess-number/blob/master/guessnumber.png)
+![Guess Number Image](./guessnumber.png)
 
 A fun guessing game that challenges your skills in guessing a secret number within a specified range. Choose your difficulty level, make your guesses, and compete for the highest score!
 - [live demo](https://guess.karansencha.com/)
@@ -40,8 +40,8 @@ This game project was developed as a simple web-based game to entertain users an
 
 
 ## Developer
-- **Developer:** Karan Sencha
-- **Contact:** contact@karansencha.com
+- **Developer:** [Karan Sencha](https://karansencha.com/)
+- **Contact:** [karanenquiry1@gmail.com](mailto:karanenquiry1@gmail.com)
 
 
 

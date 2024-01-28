@@ -1,5 +1,5 @@
-("use strict");
-// Game variables
+"use strict";
+
 let levelInfo = "";
 let secretNumber = randomNum();
 let score = 20;
@@ -12,7 +12,6 @@ const againButton = document.querySelector(".again");
 const flowerContainer = document.getElementById("flower-container");
 const bestScore = document.querySelector(".score-best");
 const recentScore = document.querySelector(".score-recent");
-const levelOption = document.querySelector("#level");
 
 // Flower effect state
 let flowers = []; // Array to store created flowers
@@ -24,12 +23,12 @@ let bestHighscoreInfo = [];
 let tooltipFlag = true;
 let updateScoreFlag = true;
 
-// Helper function to display messages
+// Display message after click check button
 const displayMessage = function (message) {
   document.querySelector(".message").textContent = message;
 };
 
-// Event listener for Enter key (same as clicking the check button)
+// add event listener to enter key
 inputValue.addEventListener("keydown", function (event) {
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -37,93 +36,80 @@ inputValue.addEventListener("keydown", function (event) {
   }
 });
 
-// Focus on the input element when the page loads
+//By default Focus on the input element
 document.addEventListener("DOMContentLoaded", function () {
   inputValue.focus();
 });
 
-// Event listeners for button clicks
-checkButton.addEventListener("click", checkNumber);
-againButton.addEventListener("click", restartGame);
-
-// Function to check the user's guess
-function checkNumber() {
-  const guess = Number(inputValue.value);
+// Add event to -- Check Button
+checkButton.addEventListener("click", function () {
+  const guess = Number(document.querySelector(".guess").value);
   inputValue.focus();
-
+  // When there is no input
   if (!guess) {
     displayMessage("No number 🙅‍♀️");
+
+    // When player wins
   } else if (guess === secretNumber) {
-    handleWin();
-  } else {
-    handleWrongGuess(guess);
+    displayMessage("You Win");
+    document.querySelector(".number").textContent = secretNumber;
+    inputValue.blur();
+    document.querySelector("body").style.backgroundColor = "#198754";
+    document.querySelector(".number").style.backgroundColor = "#8fbc8f";
+    startFlower();
+
+    // call updateRecentScoresInfo
+    if (updateScoreFlag) {
+      updateRecentScoresInfo(score);
+      updateBestHighscoreInfo(score);
+      updateScoreFlag = !updateScoreFlag;
+    }
+
+    if (score > highscore) {
+      highscore = score;
+      document.querySelector(".highscore").textContent = highscore;
+    }
+
+    // When guess is wrong
+  } else if (guess !== secretNumber) {
+    if (score > 1) {
+      displayMessage(guess > secretNumber ? "📈 Too high!" : "📉 Too low!");
+      score--;
+      document.querySelector(".score").textContent = score;
+    } else {
+      displayMessage("Game over 😔");
+      document.querySelector(".score").textContent = 0;
+    }
   }
-}
+});
 
-// Function to handle a winning guess
-function handleWin() {
-  displayMessage("You Win");
-  document.querySelector(".number").textContent = secretNumber;
-  inputValue.blur();
-  document.querySelector("body").style.backgroundColor = "#198754";
-  document.querySelector(".number").style.backgroundColor = "#8fbc8f";
-  startFlower();
-
-  updateScores();
-}
-
-// Function to handle a wrong guess
-function handleWrongGuess(guess) {
-  if (score > 1) {
-    displayMessage(guess > secretNumber ? "📈 Too high!" : "📉 Too low!");
-    score--;
-    document.querySelector(".score").textContent = score;
-  } else {
-    displayMessage("Game over 😔");
-    document.querySelector(".score").textContent = 0;
-  }
-}
-
-// Function to restart the game
-function restartGame() {
+// Again Function
+function again() {
   score = 20;
   secretNumber = randomNum();
+  updateScoreFlag = true;
   inputValue.focus();
   displayMessage("Start guessing...");
   document.querySelector(".score").textContent = score;
   document.querySelector(".number").textContent = "?";
-  inputValue.value = "";
+  document.querySelector(".guess").value = "";
 
   document.querySelector("body").style.backgroundColor = "#222";
   document.querySelector(".number").style.backgroundColor = "#ddd";
   stopFlower();
-  updateScoresFlag();
 }
+// Again Button - Restart Game logic
+againButton.addEventListener("click", again);
 
-// Function to update scores (highscore and recent scores)
-function updateScores() {
-  if (score > highscore) {
-    highscore = score;
-    document.querySelector(".highscore").textContent = highscore;
-  }
-  updateRecentScoresInfo(score);
-  updateBestHighscoreInfo(score);
-  updateScoresFlag();
-}
+// Call Again function when - level is changed
 
-// Function to update a flag for score updates
-function updateScoresFlag() {
-  updateScoreFlag = !updateScoreFlag;
-}
-
-// Event listener for level change
-levelOption.addEventListener("change", function (event) {
-  const level = event.target.value;
+document.getElementById("level").addEventListener("change", function () {
+  const level = document.getElementById("level").value;
   updateLevel(level);
-  restartGame();
+  again();
 });
 
-// Function to generate random numbers based on the chosen level:
+// random for different levels
 function randomNum() {
   let levelValue = "";
   changeLevelValue();
@@ -145,13 +131,11 @@ function randomNum() {
 
 // Start the flower effect when player wins
 function startFlower() {
-  // Prevent duplicate flower creation
   if (flag) {
     return;
   }
   flag = true;
 
-  // Number of flowers to create
   let bubbleNum = 70;
   if (window.innerWidth < 700) {
     bubbleNum = 40;
@@ -160,7 +144,6 @@ function startFlower() {
   for (let i = 0; i < bubbleNum; i++) {
     const flower = document.createElement("div");
 
-    // Choose a random flower shape
     let classRandom = Math.trunc(Math.random() * 3) + 1;
     if (classRandom == 1) {
       flower.classList.add("square");
@@ -169,20 +152,18 @@ function startFlower() {
     } else {
       flower.classList.add("triangle");
     }
-
-    // Set random position and animation for each flower
     flower.style.left = `${Math.random() * 100}%`;
+
     flower.style.animation = `fall ${Math.random() * 5 + 3}s linear ${Math.random() * 2}s infinite`;
     flowerContainer.appendChild(flower);
 
-    flowers.push(flower); // Keep track of created flowers
+    flowers.push(flower);
   }
 }
 
 // Stop the flower effect
 function stopFlower() {
   for (const flower of flowers) {
-    // Remove all created flowers
     flowerContainer.removeChild(flower);
   }
   // Clear the flowers array
@@ -190,7 +171,7 @@ function stopFlower() {
   flag = false;
 }
 
-// toggle recent scores and tooltip text
+// Recent Score open & close
 bestScore.addEventListener("click", function () {
   recentScore.classList.toggle("score-hide");
 
@@ -203,7 +184,7 @@ bestScore.addEventListener("click", function () {
 });
 
 // Local Storage
-// update and display recent scores in local storage
+// Update recent scores information in local storage
 function updateRecentScoresInfo(scoreValue = "20") {
   const level = document.getElementById("level").value;
   const currentTime = Date.now();
@@ -218,7 +199,7 @@ function updateRecentScoresInfo(scoreValue = "20") {
 
   recentScoresInfo.push(recentScoreInfo);
 
-  // Limit the number of stored scores to 10, remove the oldest if exceed
+  // remove previous element if already 10 element in local storage
   let recentLength = recentScoresInfo.length;
   if (recentLength > 10) {
     for (let i = recentLength; i > 10; i--) {
@@ -267,6 +248,7 @@ function displayRecentScores() {
 
   recentScore.innerHTML = allRecentScores;
 }
+
 displayRecentScores();
 
 function updateBestHighscoreInfo(scoreValue = "10") {
@@ -305,9 +287,7 @@ function displayBestScore() {
             <div><span class="heading">score</span><span class="value">${score}</span></div>
             <div>
               <div class="tooltip-btn">
-       <span class="material-symbols-outlined">
-           keyboard_arrow_up
-       </span>
+                (O)
                 <div class="tooltip">show recent</div>
               </div>
             </div>
@@ -334,6 +314,7 @@ function changeLevelValue() {
     }
   }
 }
+
 // Copyright Year update automatically
 function updateCopyrightYear() {
   const yearElement = document.getElementById("copyrightYear");

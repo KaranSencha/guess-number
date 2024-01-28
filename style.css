@@ -53,6 +53,7 @@ header>h1 {
 main {
   padding-top: 40px;
   height: max(100vh, 700px);
+  position: relative;
 }
 
 .first,
@@ -169,15 +170,17 @@ select {
 }
 
 aside {
-  position: fixed;
-  bottom: 50px;
+  position: absolute;
+  top: 95vh;
   right: 50px;
   user-select: none;
+  width: 250px;
+  z-index: 999;
 }
 
 .score-history {
   position: relative;
-  width: 250px;
+  width: 100%;
 }
 
 .score-best {
@@ -231,6 +234,11 @@ aside {
 
 .tooltip-btn {
   padding: 10px 20px;
+  padding-right: 10px;
+}
+
+.tooltip-btn span {
+  font-size: 35px;
 }
 
 .tooltip-btn:hover .tooltip {
@@ -295,6 +303,12 @@ aside {
 
 /* Tablet Responsive  */
 @media only screen and (max-width: 768px) {
+  aside {
+      top: auto;
+      bottom: 10px;
+      width: 300px;
+      right: 30px;
+    }
   header {
     height: 60px;
     display: flex;
@@ -365,6 +379,12 @@ aside {
 
 /* Mobile Landscape Responsive  */
 @media only screen and (max-width: 600px) {
+aside {
+    top: auto;
+    bottom: 0;
+    width: 300px;
+    right: 20px;
+  }
 
   .first,
   .second {
@@ -423,6 +443,12 @@ aside {
 
   }
 
+  aside {
+    top: auto;
+    bottom: 0;
+    width: 300px;
+      right: 20px;
+  }
   .guess {
     width: 150px;
   }
